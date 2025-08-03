@@ -1,0 +1,14 @@
+<mapper namespace="com.shopping.shoppingmall.user.signup.SignupMapper">
+
+<inesrt id="insertUser" parameterType="com.shopping.shoppingmall.user.domain.User">
+    INSERT INTO users(
+        username, password, name, email, phone,
+        address, address_detail, gender, birth
+    )
+    VALUES (
+        #{username}, #{password}, #{name}, #{email}, #{phone},
+        #{address}, #{address_detail}, #{gender}, #{birth}
+    )
+</insert>
+
+</mapper>
