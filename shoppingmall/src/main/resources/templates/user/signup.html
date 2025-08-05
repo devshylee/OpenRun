@@ -28,7 +28,7 @@
       }
 
       .signup-card {
-        max-width: 600px;
+        max-width: 500px;
         margin: 40px auto;
         padding: 30px 40px;
         background-color: #fff;
@@ -55,7 +55,7 @@
       }
 
       .btn-primary {
-        background-color: #ff5a5f;
+        background-color: #add8e6;
         border: none;
         border-radius: 0.5rem;
         padding: 12px;
@@ -63,7 +63,7 @@
       }
 
       .btn-primary:hover {
-        background-color: #e0484d;
+        background-color: #9ddddd;
       }
 
       .required::after {
@@ -72,7 +72,16 @@
         margin-left: 4px;
       }
 
-      footer {
+      .text-danger {
+        color: #dc3545;
+        font-size: 0.875em;
+      }
+
+      /* 우편번호 검색 버튼의 최소 너비를 설정하여 텍스트가 한 줄로 표시되게 함 */
+      #searchAddress {
+        min-width: 120px;
+      }
+      aaaa footer {
         margin-top: 50px;
         text-align: center;
         color: #888;
@@ -83,7 +92,7 @@
   <body>
     <!-- 헤더 (간단히) -->
     <header class="text-center mt-4">
-      <h1><strong>K-Shop</strong></h1>
+      <h1><strong>나래</strong></h1>
       <p class="text-muted">당신의 일상을 바꾸는 쇼핑</p>
     </header>
 
@@ -93,6 +102,15 @@
     <div class="signup-card">
       <h2>회원가입</h2>
       <form th:action="@{/signup}" th:object="${signupForm}" method="post">
+        <!-- Global Error Messages (전역 오류 메시지) -->
+        <div
+          th:if="${#fields.hasGlobalErrors()}"
+          class="alert alert-danger"
+          role="alert"
+        >
+          <p th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+        </div>
+
         <!-- 사용자 ID -->
         <div class="mb-3">
           <label class="form-label required">아이디</label>
@@ -102,6 +120,12 @@
             class="form-control"
             required
           />
+          <!-- 아이디 유효성 검사 에러메시지 -->
+          <div
+            th:if="${#fields.hasErrors('userId')}"
+            class="text-danger mt-1"
+            th:errors="*{userId}"
+          ></div>
         </div>
 
         <!-- 비밀번호 -->
@@ -113,6 +137,11 @@
             class="form-control"
             required
           />
+          <div
+            th:if="${#fields.hasErrors('password')}"
+            class="text-danger mt-1"
+            th:errors="*{password}"
+          ></div>
         </div>
 
         <!-- 비밀번호 확인 -->
@@ -124,59 +153,136 @@
             class="form-control"
             required
           />
+          <!-- 비밀번호 확인 에러메시지 -->
+          <div
+            th:if="${#fields.hasErrors('confirmPassword')}"
+            class="text-danger mt-1"
+            th:errors="*{confirmPassword}"
+          ></div>
         </div>
 
         <!-- 이름 -->
         <div class="mb-3">
           <label class="form-label required">이름</label>
           <input type="text" th:field="*{name}" class="form-control" required />
+          <div
+            th:if="${#fields.hasErrors('name')}"
+            class="text-danger mt-1"
+            th:errors="*{name}"
+          ></div>
         </div>
 
-        <!-- 이메일 -->
+        <!-- 이메일 및 인증 -->
         <div class="mb-3">
           <label class="form-label required">이메일</label>
-          <input
-            type="email"
-            th:field="*{email}"
-            class="form-control"
-            required
-          />
+          <div class="input-group">
+            <input
+              type="email"
+              th:field="*{email}"
+              class="form-control"
+              placeholder="이메일"
+              required
+            />
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              id="sendAuthCode"
+            >
+              인증번호 발송
+            </button>
+          </div>
+          <div
+            th:if="${#fields.hasErrors('email')}"
+            class="text-danger mt-1"
+            th:errors="*{email}"
+          ></div>
+        </div>
+        <div class="mb-3">
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="인증번호"
+              id="authCode"
+            />
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              id="verifyAuthCode"
+            >
+              인증 확인
+            </button>
+          </div>
         </div>
 
         <!-- 휴대폰 번호 -->
         <div class="mb-3">
-          <label class="form-label required"
-            >휴대폰 번호(-를 제외하고 입력하세요.)</label
-          >
+          <label class="form-label required">휴대폰 번호</label>
           <input
             type="text"
             th:field="*{phone}"
             class="form-control"
+            placeholder="- 없이 입력하세요."
             required
           />
+          <div
+            th:if="${#fields.hasErrors('phone')}"
+            class="text-danger mt-1"
+            th:errors="*{phone}"
+          ></div>
+        </div>
+
+        <!-- 생년월일 -->
+        <div class="mb-3">
+          <label class="form-label required">생년월일</label>
+          <input
+            type="date"
+            th:field="*{birth}"
+            class="form-control"
+            required
+          />
+          <div
+            th:if="${#fields.hasErrors('birth')}"
+            class="text-danger mt-1"
+            th:errors="*{birth}"
+          ></div>
         </div>
 
         <!-- 주소 -->
         <div class="mb-3">
           <label class="form-label required">주소</label>
-          <div class="row g-2">
-            <div class="col-4">
-              <input
-                type="text"
-                th:field="*{address}"
-                class="form-control"
-                placeholder="기본 주소"
-                required
-              />
-            </div>
-            <div class="col-8 mt-2">
-              <input
-                type="text"
-                th:field="*{addressDetail}"
-                class="form-control"
-                placeholder="상세 주소"
-              />
-            </div>
+          <div class="d-flex mb-2">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="우편번호"
+              readonly
+            />
+            <button
+              class="btn btn-outline-secondary ms-2"
+              type="button"
+              id="searchAddress"
+            >
+              우편번호 검색
+            </button>
+          </div>
+          <div class="mb-2">
+            <input
+              type="text"
+              th:field="*{address}"
+              class="form-control"
+              placeholder="기본 주소"
+              readonly
+              required
+            />
+          </div>
+          <div>
+            <input
+              type="text"
+              th:field="*{addressDetail}"
+              class="form-control"
+              placeholder="상세 주소"
+            />
           </div>
         </div>
 
@@ -188,38 +294,25 @@
             <option value="MALE">남성</option>
             <option value="FEMALE">여성</option>
           </select>
+          <div
+            th:if="${#fields.hasErrors('gender')}"
+            class="text-danger mt-1"
+            th:errors="*{gender}"
+          ></div>
         </div>
 
-        <!-- 약관 -->
+        <!-- 약관 동의 -->
         <div class="mb-3">
           <label class="form-label">약관 동의</label>
           <div class="form-check">
-            <input
-              type="checkbox"
-              th:field="*{agreeTerms}"
-              class="form-check-input"
-              required
-            />
+            <input type="checkbox" class="form-check-input" required />
             <label class="form-check-label">[필수] 서비스 이용 약관 동의</label>
           </div>
           <div class="form-check">
-            <input
-              type="checkbox"
-              th:field="*{agreePrivacy}"
-              class="form-check-input"
-              required
-            />
+            <input type="checkbox" class="form-check-input" required />
             <label class="form-check-label"
               >[필수] 개인정보 처리방침 동의</label
             >
-          </div>
-          <div class="form-check">
-            <input
-              type="checkbox"
-              th:field="*{agreeMarketing}"
-              class="form-check-input"
-            />
-            <label class="form-check-label">[선택] 마케팅 수신 동의</label>
           </div>
         </div>
 
@@ -232,5 +325,47 @@
 
     <!-- 푸터 -->
     <footer class="mt-5">&copy; 2025 K-Shop. All rights reserved.</footer>
+
+    <script>
+      // '인증번호 발송' 버튼 클릭 이벤트 리스너 추가
+      document
+        .getElementById("sendAuthCode")
+        .addEventListener("click", function () {
+          const emailInput = document.getElementById("email");
+          const email = emailInput.value;
+
+          // 이메일 입력 필드가 비어있으면 경고 메시지 표시
+          if (!email) {
+            alert("이메일 주소를 입력해주세요.");
+            return;
+          }
+
+          // 서버에 이메일 주소를 POST 방식으로 전송
+          fetch("/mail/send", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email: email }),
+          })
+            .then((response) => {
+              if (response.ok) {
+                return response.text();
+              }
+              // HTTP 에러 상태에 따라 에러 처리
+              throw new Error("이메일 발송에 실패했습니다.");
+            })
+            .then((message) => {
+              // 성공 메시지 출력
+              alert("인증번호가 발송되었습니다. 5분 이내에 입력해주세요.");
+              console.log(message);
+            })
+            .catch((error) => {
+              // 에러 메시지 출력
+              alert(error.message);
+              console.error("Error:", error);
+            });
+        });
+    </script>
   </body>
 </html>

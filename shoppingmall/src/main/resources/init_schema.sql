@@ -9,9 +9,7 @@ CREATE TABLE IF NOT EXISTS users (
     address_detail VARCHAR(255),                    -- 상세 주소
     gender VARCHAR(10),                             -- 성별 (예: male/female)
     birth DATE,                             -- 생년월일
-    agree_terms BOOLEAN NOT NULL DEFAULT FALSE,     -- 필수 약관 동의
-    agree_marketing BOOLEAN DEFAULT FALSE,          -- 선택 약관 동의
     join_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- 가입일
     member_grade VARCHAR(20) DEFAULT 'GENERAL',     -- 회원 등급 (예: GENERAL, VIP)
-    is_deleted BOOLEAN DEFAULT FALSE                -- 탈퇴 여부
+    is_deleted BOOLEAN NOT NULL DEFAULT FALSE                -- 탈퇴 여부
 );

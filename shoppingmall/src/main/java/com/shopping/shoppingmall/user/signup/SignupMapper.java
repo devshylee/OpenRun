@@ -7,4 +7,5 @@ import com.shopping.shoppingmall.user.domain.User;
 @Mapper
 public interface SignupMapper {
     void insertUser(User user);
+    int findUserById(String userId);
 }
