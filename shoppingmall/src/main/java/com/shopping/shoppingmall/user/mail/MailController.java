@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-
-
 @RestController
 @RequestMapping("/mail")
 @RequiredArgsConstructor
@@ -23,11 +21,12 @@ public class MailController {
         mailService.sendEmail(email);
     }
 
-    
     @PostMapping("/verify")
-    public void verifyCode(String code) {
-    
+    public void verifyCode(@RequestBody Map<String, String> requestBody) {
+        String email = requestBody.get("email");
+        String code = requestBody.get("code");
+
+        mailService.verifyCode(email, code);
     }
     
-
 }

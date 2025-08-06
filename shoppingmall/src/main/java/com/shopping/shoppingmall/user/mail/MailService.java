@@ -37,4 +37,13 @@ public class MailService {
         return code;
     }
 
+    public void verifyCode(String email, String code){
+        String storedCode = codeStorage.get(email);
+
+        if(!storedCode.equals(code)){
+            throw new IllegalStateException("인증코드가 다릅니다.");
+        }
+
+    }
+
 }
