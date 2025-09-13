@@ -2,9 +2,10 @@ package com.shopping.shoppingmall.user.signup;
 
 import java.time.LocalDate;
 
+import com.shopping.shoppingmall.user.validation.PasswordMatch;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -17,6 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@PasswordMatch(passwordField = "password", confirmPasswordField = "confirmPassword")
 public class SignupRequest {
 
     @NotBlank(message = "아이디를 입력해주세요.")
@@ -24,7 +26,7 @@ public class SignupRequest {
     private String userId;
 
     @NotBlank(message = "비밀번호를 입력해주세요..")
-    @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,16}", message = "비밀번호는 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.")
+    // @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,16}", message = "비밀번호는 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.")
     private String password;
 
     @NotBlank(message = "비밀번호 확인을 위해 입력해주세요.")

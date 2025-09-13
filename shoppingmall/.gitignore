@@ -13,6 +13,7 @@ target
 pom.properties
 .classpath
 MANIFEST.MF
+application.properties
 
 # Log file
 *.log

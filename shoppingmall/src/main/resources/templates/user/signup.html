@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
-    <title>회원가입 | K-Shop</title>
+    <title>회원가입 | 오또코디</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -63,7 +63,7 @@
       }
 
       .btn-primary:hover {
-        background-color: #9ddddd;
+        background-color: #89c4c4;
       }
 
       .required::after {
@@ -81,19 +81,24 @@
       #searchAddress {
         min-width: 120px;
       }
-      aaaa footer {
+
+      footer {
         margin-top: 50px;
         text-align: center;
-        color: #888;
+        color: #ffffff;
         font-size: 14px;
       }
     </style>
+
+    <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
   <body>
     <!-- 헤더 (간단히) -->
     <header class="text-center mt-4">
-      <h1><strong>나래</strong></h1>
-      <p class="text-muted">당신의 일상을 바꾸는 쇼핑</p>
+      <h1><strong>오또코디</strong></h1>
+      <p class="text-muted">당신의 일상을 바꾸는 코디</p>
     </header>
 
     <div class="bg-blur"></div>
@@ -102,13 +107,18 @@
     <div class="signup-card">
       <h2>회원가입</h2>
       <form th:action="@{/signup}" th:object="${signupForm}" method="post">
-        <!-- Global Error Messages (전역 오류 메시지) -->
+        <!-- 글로벌 에러 메시지 -->
+        <div th:if="${globalError}" class="alert alert-danger" role="alert">
+          <p th:text="${globalError}"></p>
+        </div>
+
+        <!-- Validation 에러 메시지 (BindingResult) -->
         <div
-          th:if="${#fields.hasGlobalErrors()}"
+          th:if="${#fields.hasErrors('*')}"
           class="alert alert-danger"
           role="alert"
         >
-          <p th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+          <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
         </div>
 
         <!-- 사용자 ID -->
@@ -255,6 +265,8 @@
             <input
               type="text"
               class="form-control"
+              name="addr1"
+              id="addr1"
               placeholder="우편번호"
               readonly
             />
@@ -262,6 +274,7 @@
               class="btn btn-outline-secondary ms-2"
               type="button"
               id="searchAddress"
+              onclick="execPostCode()"
             >
               우편번호 검색
             </button>
@@ -271,6 +284,7 @@
               type="text"
               th:field="*{address}"
               class="form-control"
+              id="addr2"
               placeholder="기본 주소"
               readonly
               required
@@ -324,7 +338,7 @@
     </div>
 
     <!-- 푸터 -->
-    <footer class="mt-5">&copy; 2025 K-Shop. All rights reserved.</footer>
+    <footer class="mt-5">&copy; 2025 오또코디. All rights reserved.</footer>
 
     <script>
       // '인증번호 발송' 버튼 클릭 이벤트 리스너 추가
@@ -366,6 +380,84 @@
               console.error("Error:", error);
             });
         });
+
+      // 인증 확인 버튼 클릭 이벤트
+      document
+        .getElementById("verifyAuthCode")
+        .addEventListener("click", function () {
+          const email = document.getElementById("email").value;
+          const code = document.getElementById("authCode").value;
+
+          if (!code) {
+            alert("인증번호를 입력해주세요.");
+            return;
+          }
+
+          fetch("/mail/verify", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: email, code: code }),
+          })
+            .then((response) => {
+              if (response.ok) {
+                alert("이메일 인증이 완료되었습니다!");
+                sessionStorage.setItem("emailVerified", "true"); // ✅ 인증 성공 플래그 저장
+              } else {
+                throw new Error("인증번호가 일치하지 않습니다.");
+              }
+            })
+            .catch((error) => {
+              alert(error.message);
+              console.error("Error:", error);
+            });
+        });
     </script>
+    <script>
+      function execPostCode() {
+        new daum.Postcode({
+          oncomplete: function (data) {
+            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+            // 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
+            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+            var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
+            var extraRoadAddr = ""; // 도로명 조합형 주소 변수
+
+            // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+            // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+            if (data.bname !== "" && /[동|로|가]$/g.test(data.bname)) {
+              extraRoadAddr += data.bname;
+            }
+            // 건물명이 있고, 공동주택일 경우 추가한다.
+            if (data.buildingName !== "" && data.apartment === "Y") {
+              extraRoadAddr +=
+                extraRoadAddr !== ""
+                  ? ", " + data.buildingName
+                  : data.buildingName;
+            }
+            // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+            if (extraRoadAddr !== "") {
+              extraRoadAddr = " (" + extraRoadAddr + ")";
+            }
+            // 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
+            if (fullRoadAddr !== "") {
+              fullRoadAddr += extraRoadAddr;
+            }
+
+            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+            console.log(data.zonecode);
+            console.log(fullRoadAddr);
+
+            $("[name=addr1]").val(data.zonecode);
+            $("#addr2").val(fullRoadAddr);
+
+            /* document.getElementById('signUpUserPostNo').value = data.zonecode; //5자리 새우편번호 사용
+                document.getElementById('signUpUserCompanyAddress').value = fullRoadAddr;
+                document.getElementById('signUpUserCompanyAddressDetail').value = data.jibunAddress; */
+          },
+        }).open();
+      }
+    </script>
+    <!-- 인증 상태를 서버로 보낼 hidden input -->
   </body>
 </html>

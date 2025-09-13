@@ -25,7 +25,7 @@ public class MailController {
     public void verifyCode(@RequestBody Map<String, String> requestBody) {
         String email = requestBody.get("email");
         String code = requestBody.get("code");
-
+        
         mailService.verifyCode(email, code);
     }
     
