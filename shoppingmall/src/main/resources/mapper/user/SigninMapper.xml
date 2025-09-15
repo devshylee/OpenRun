@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shopping.shoppingmall.user.signin.SigninMapper">
+
+<select id="findByEmail" resultType="com.shopping.shoppingmall.user.domain.User" parameterType="String">
+    SELECT * FROM users WHERE email = #{email}
+</select>
+
+<select id="findById" resultType="com.shopping.shoppingmall.user.domain.User" parameterType="Long">
+    SELECT * FROM users WHERE id = #{id}
+</select>
+
+</mapper>

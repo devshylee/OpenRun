@@ -45,7 +45,7 @@ public class SignupController {
         }
 
         signupService.signup(signupRequest);
-        return "redirect:/login";
+        return "redirect:/index";
     }
 
     

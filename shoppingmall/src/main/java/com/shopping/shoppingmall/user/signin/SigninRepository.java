@@ -9,7 +9,7 @@
 
 
 // @Repository
-// public interface UserSigninRepository extends JpaRepository<User, Long> {
+// public interface SigninRepository extends JpaRepository<User, Long> {
 // 	Optional<User> findByEmail(String email);
 	
 // }
