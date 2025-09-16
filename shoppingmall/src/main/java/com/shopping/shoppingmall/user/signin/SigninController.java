@@ -63,6 +63,7 @@ public class SigninController {
             System.out.println("로그인성공");
 
             // 4. 로그인 성공 시 메인 페이지로 리다이렉트합니다.
+            redirectAttributes.addFlashAttribute("isLoggedIn", true);
 
             return "redirect:/";
 

@@ -49,7 +49,5 @@ public class SigninService {
 		return new SigninResponse(accessToken, refreshToken);
 	}
 
-		public void logoutAllDevices(Long userId) {
-		redisService.deleteRefreshToken(userId);
-	}
+
 }
