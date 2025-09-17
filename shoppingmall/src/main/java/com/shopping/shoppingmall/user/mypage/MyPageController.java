@@ -1,10 +1,13 @@
 package com.shopping.shoppingmall.user.mypage;
 
+import java.util.Optional;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.shopping.shoppingmall.user.domain.User;
 import com.shopping.shoppingmall.user.domain.UserDetailsImpl;
 import com.shopping.shoppingmall.user.signin.SigninMapper;
 
@@ -22,15 +25,28 @@ public class MyPageController {
 
     @GetMapping("/mypage")
     public String myPage(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        System.out.println(userDetails.getUsername());
-        System.out.println(userDetails.getPassword());
+        System.out.println("Mypage전달값 : "+userDetails.getUsername());
+        System.out.println("Mypage전달값 : "+userDetails.getPassword());
 
         if (userDetails == null) {
             return "redirect:/"; // 로그인 안 돼 있으면 홈으로 리다이렉트
         }
+        
+        Optional<User> optionalUser = signinMapper.findByEmail(userDetails.getUsername());
 
-        model.addAttribute("user", signinMapper.findByEmail(userDetails.getUsername()));
-        return "mypage"; // mypage.html 렌더링
+        User user;
+        if (optionalUser.isPresent()) {
+            user = optionalUser.get();
+        } else {
+            // 사용자가 없는 경우
+            user = null; // 또는 null 처리 로직
+        }
+
+        System.out.println("유저정보: " + user.toString()); 
+        model.addAttribute("user", user);
+
+       
+        return "user/mypage"; // mypage.html 렌더링
     }
 }
 

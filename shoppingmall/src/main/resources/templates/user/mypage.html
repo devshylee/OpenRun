@@ -90,10 +90,10 @@
             <label for="gender">성별</label>
             <select id="gender" th:field="*{gender}">
               <option value="">선택</option>
-              <option value="male" th:selected="${user.gender == 'male'}">
+              <option value="male" th:selected="*{gender == 'male'}">
                 남성
               </option>
-              <option value="female" th:selected="${user.gender == 'female'}">
+              <option value="female" th:selected="*{gender == 'female'}">
                 여성
               </option>
             </select>
