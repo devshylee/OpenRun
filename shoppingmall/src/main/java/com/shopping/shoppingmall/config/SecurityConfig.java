@@ -47,6 +47,7 @@ public class SecurityConfig {
             .logoutSuccessUrl("/") // 로그아웃 성공 후 리다이렉트될 URL
             .invalidateHttpSession(true) // HTTP 세션 무효화
             .deleteCookies("ACCESS_TOKEN", "REFRESH_TOKEN") // 쿠키 삭제
+            
         );
 
         return http.build();

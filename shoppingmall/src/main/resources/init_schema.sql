@@ -13,3 +13,55 @@ CREATE TABLE IF NOT EXISTS users (
     member_grade VARCHAR(20) DEFAULT 'GENERAL',     -- 회원 등급 (예: GENERAL, VIP)
     is_deleted BOOLEAN NOT NULL DEFAULT FALSE                -- 탈퇴 여부
 );
+
+-- CREATE TABLE category (
+--     id SERIAL PRIMARY KEY,
+--     name VARCHAR(50) NOT NULL,
+--     parent_id INT NULL,
+-- );
+
+-- ALTER TABLE category
+--     ADD CONSTRAINT fk_parent_category
+--     FOREIGN KEY (parent_id) REFERENCES category (id);
+
+-- CREATE TABLE post (
+--     id SERIAL PRIMARY KEY,
+--     category_id INT NOT NULL,
+--     user_id BIGINT NOT NULL,
+--     title VARCHAR(255) NOT NULL,
+--     content TEXT NOT NULL,
+--     image_url VARCHAR(255),
+--     view_count INT DEFAULT 0,
+--     like_count INT DEFAULT 0,
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+--     CONSTRAINT fk_post_category
+--         FOREIGN KEY (category_id) REFERENCES category (id)
+--         ON DELETE CASCADE,
+--     CONSTRAINT fk_post_user
+--         FOREIGN KEY (user_id) REFERENCES users (id)
+--         ON DELETE CASCADE
+-- );
+
+-- CREATE TABLE comment (
+--     id SERIAL PRIMARY KEY,
+--     post_id INT NOT NULL,
+--     user_id BIGINT NOT NULL,
+--     parent_id INT NULL,
+--     content TEXT NOT NULL,
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+--     CONSTRAINT fk_comment_post
+--         FOREIGN KEY (post_id) REFERENCES post (id)
+--         ON DELETE CASCADE,
+--     CONSTRAINT fk_parent_comment
+--         FOREIGN KEY (parent_id) REFERENCES comment (id)
+--         ON DELETE CASCADE,
+--     CONSTRAINT fk_comment_user
+--         FOREIGN KEY (user_id) REFERENCES users (id)
+--         ON DELETE CASCADE
+-- );
+
+

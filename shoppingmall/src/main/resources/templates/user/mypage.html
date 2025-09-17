@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>마이페이지</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <!-- 헤더 -->
+    <header>
+      <div class="header-inner">
+        <div class="logo"><a href="/">오또코디</a></div>
+
+        <nav class="center-nav">
+          <a href="/">전체글</a>
+          <a href="#">커뮤니티</a>
+          <a href="#">실사후기</a>
+          <a href="#">데일리룩</a>
+          <a href="#">플리마켓</a>
+        </nav>
+
+        <div class="nav-right">
+          <input type="text" placeholder="검색" />
+
+          <div class="flex justify-end">
+            <div th:if="${isLoggedIn}">
+              <form
+                th:action="@{/logout}"
+                method="post"
+                style="display: inline"
+              >
+                <button type="submit" class="logout-btn">로그아웃</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- 메인 컨텐츠 -->
+    <div class="container">
+      <div class="section">
+        <h2>마이페이지</h2>
+
+        <!-- 에러 메시지 / 성공 메시지 -->
+        <div th:if="${errorMessage}" class="alert alert-danger">
+          <span th:text="${errorMessage}"></span>
+        </div>
+        <div th:if="${successMessage}" class="alert alert-success">
+          <span th:text="${successMessage}"></span>
+        </div>
+
+        <!-- 사용자 정보 수정 폼 -->
+        <form th:action="@{/mypage/update}" th:object="${user}" method="post">
+          <div class="form-group">
+            <label for="username">닉네임</label>
+            <input type="text" id="username" th:field="*{username}" readonly />
+          </div>
+
+          <div class="form-group">
+            <label for="name">이름</label>
+            <input type="text" id="name" th:field="*{name}" />
+          </div>
+
+          <div class="form-group">
+            <label for="email">이메일</label>
+            <input type="email" id="email" th:field="*{email}" />
+          </div>
+
+          <div class="form-group">
+            <label for="phone">전화번호</label>
+            <input type="text" id="phone" th:field="*{phone}" />
+          </div>
+
+          <div class="form-group">
+            <label for="address">주소</label>
+            <input type="text" id="address" th:field="*{address}" />
+          </div>
+
+          <div class="form-group">
+            <label for="address_detail">상세주소</label>
+            <input
+              type="text"
+              id="address_detail"
+              th:field="*{addressDetail}"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="gender">성별</label>
+            <select id="gender" th:field="*{gender}">
+              <option value="">선택</option>
+              <option value="male" th:selected="${user.gender == 'male'}">
+                남성
+              </option>
+              <option value="female" th:selected="${user.gender == 'female'}">
+                여성
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="birth">생년월일</label>
+            <input type="date" id="birth" th:field="*{birth}" />
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">수정하기</button>
+          </div>
+        </form>
+
+        <!-- 비밀번호 변경 링크 -->
+        <div class="form-actions">
+          <a href="/mypage/password" class="btn-secondary">비밀번호 변경</a>
+        </div>
+
+        <!-- 회원 탈퇴 -->
+        <form
+          th:action="@{/mypage/delete}"
+          method="post"
+          onsubmit="return confirm('정말 탈퇴하시겠습니까?');"
+        >
+          <button type="submit" class="btn-danger">회원 탈퇴</button>
+        </form>
+      </div>
+    </div>
+
+    <footer>© 2025 패션 커뮤니티 게시판</footer>
+  </body>
+</html>
