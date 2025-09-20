@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>작성글 관리</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/myposts.css" />
+  </head>
+  <body>
+    <div th:replace="fragments :: header"></div>
+
+    <div class="mypage-container">
+      <!-- 왼쪽 카테고리 메뉴 -->
+      <aside class="mypage-sidebar">
+        <ul>
+          <li><a th:href="@{/mypage}">내정보</a></li>
+          <li><a th:href="@{/myposts}" class="active">작성글 관리</a></li>
+          <li><a th:href="@{/myfavorites}">관심 데일리룩</a></li>
+        </ul>
+      </aside>
+
+      <!-- 메인 컨텐츠 -->
+      <main class="mypage-main">
+        <h2>작성글 관리</h2>
+
+        <!-- 탭 메뉴 -->
+        <div class="tab-menu">
+          <button class="tab-button active" onclick="showTab('posts')">
+            작성글
+          </button>
+          <button class="tab-button" onclick="showTab('comments')">
+            작성댓글
+          </button>
+        </div>
+
+        <!-- 작성글 탭 (더미 데이터) -->
+        <div id="posts" class="tab-content active">
+          <h3>자유게시판 (3)</h3>
+          <table class="post-table">
+            <thead>
+              <tr>
+                <th>글번호</th>
+                <th>제목</th>
+                <th>작성일</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1016</td>
+                <td><a href="#">이리오시게</a></td>
+                <td>2025-09-20 15:32</td>
+              </tr>
+              <tr>
+                <td>1015</td>
+                <td><a href="#">어서 나를 보라냥!</a></td>
+                <td>2025-09-19 10:12</td>
+              </tr>
+              <tr>
+                <td>1014</td>
+                <td><a href="#">짜르틀</a></td>
+                <td>2025-09-18 21:55</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="load-more">
+            <button class="btn-secondary">더보기</button>
+          </div>
+        </div>
+
+        <!-- 작성댓글 탭 (더미 데이터) -->
+        <div id="comments" class="tab-content">
+          <h3>자유게시판 (4)</h3>
+          <table class="post-table">
+            <thead>
+              <tr>
+                <th>내용</th>
+                <th>작성일</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>뽀로로ㅇ</td>
+                <td>2025-09-19 23:41</td>
+                <td><a href="#" class="btn-secondary small">원문보기</a></td>
+              </tr>
+              <tr>
+                <td>어서어어어어옴숑!</td>
+                <td>2025-09-19 22:10</td>
+                <td><a href="#" class="btn-secondary small">원문보기</a></td>
+              </tr>
+              <tr>
+                <td>하이룽!</td>
+                <td>2025-09-19 20:05</td>
+                <td><a href="#" class="btn-secondary small">원문보기</a></td>
+              </tr>
+              <tr>
+                <td>요요욤요욤ㅇ</td>
+                <td>2025-09-19 18:00</td>
+                <td><a href="#" class="btn-secondary small">원문보기</a></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="load-more">
+            <button class="btn-secondary">더보기</button>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <div th:replace="fragments :: footer"></div>
+
+    <script>
+      function showTab(tabId) {
+        document
+          .querySelectorAll(".tab-button")
+          .forEach((btn) => btn.classList.remove("active"));
+        document
+          .querySelectorAll(".tab-content")
+          .forEach((content) => content.classList.remove("active"));
+        event.target.classList.add("active");
+        document.getElementById(tabId).classList.add("active");
+      }
+    </script>
+  </body>
+</html>

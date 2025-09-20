@@ -1,16 +1,11 @@
 package com.shopping.shoppingmall.user.signup;
 
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -39,8 +34,6 @@ public class SignupController {
             Model model) {
 
         if (bindingResult.hasErrors()) {
-            // BindingResult는 Spring이 자동으로 모델에 넣어줌
-            // signupForm도 이미 모델에 들어 있음
             return "user/signup";
         }
 
@@ -48,5 +41,4 @@ public class SignupController {
         return "redirect:/index";
     }
 
-    
 }

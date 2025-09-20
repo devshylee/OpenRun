@@ -13,6 +13,7 @@ import com.shopping.shoppingmall.user.signin.SigninMapper;
 
 import lombok.RequiredArgsConstructor;
 
+
 @Controller
 @RequiredArgsConstructor
 public class MyPageController {
@@ -48,5 +49,16 @@ public class MyPageController {
        
         return "user/mypage"; // mypage.html 렌더링
     }
+
+    @GetMapping("/myposts")
+    public String myPosts() {
+        return "user/myposts-dummy";
+    }
+
+    @GetMapping("/myfavorites")
+    public String myFavorites(){
+        return "user/myfavorites";
+    }
+    
 }
 

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>작성글 관리</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/myposts.css" />
+  </head>
+  <body>
+    <div th:replace="fragments :: header"></div>
+
+    <div class="mypage-container">
+      <!-- 왼쪽 카테고리 메뉴 -->
+      <aside class="mypage-sidebar">
+        <ul>
+          <li><a th:href="@{/mypage}">내정보</a></li>
+          <li><a th:href="@{/myposts}" class="active">작성글 관리</a></li>
+          <li><a th:href="@{/myfavorites}">관심 데일리룩</a></li>
+        </ul>
+      </aside>
+
+      <!-- 메인 컨텐츠 -->
+      <main class="mypage-main">
+        <h2>작성글 관리</h2>
+
+        <!-- 탭 메뉴 -->
+        <div class="tab-menu">
+          <button class="tab-button active" onclick="showTab('posts')">
+            작성글
+          </button>
+          <button class="tab-button" onclick="showTab('comments')">
+            작성댓글
+          </button>
+        </div>
+
+        <!-- 작성글 탭 -->
+        <div id="posts" class="tab-content active">
+          <h3>자유게시판 (<span th:text="${postList.size()}"></span>)</h3>
+          <table class="post-table">
+            <thead>
+              <tr>
+                <th>글번호</th>
+                <th>제목</th>
+                <th>작성일</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="post : ${postList}">
+                <td th:text="${post.id}"></td>
+                <td>
+                  <a
+                    th:href="@{'/board/' + ${post.id}}"
+                    th:text="${post.title}"
+                  ></a>
+                </td>
+                <td
+                  th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}"
+                ></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="load-more">
+            <button class="btn-secondary">더보기</button>
+          </div>
+        </div>
+
+        <!-- 작성댓글 탭 -->
+        <div id="comments" class="tab-content">
+          <h3>자유게시판 (<span th:text="${commentList.size()}"></span>)</h3>
+          <table class="post-table">
+            <thead>
+              <tr>
+                <th>내용</th>
+                <th>작성일</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="comment : ${commentList}">
+                <td th:text="${comment.content}"></td>
+                <td
+                  th:text="${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm')}"
+                ></td>
+                <td>
+                  <a
+                    th:href="@{'/board/' + ${comment.postId}}"
+                    class="btn-secondary small"
+                    >원문보기</a
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="load-more">
+            <button class="btn-secondary">더보기</button>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <div th:replace="fragments :: footer"></div>
+
+    <script>
+      function showTab(tabId) {
+        document
+          .querySelectorAll(".tab-button")
+          .forEach((btn) => btn.classList.remove("active"));
+        document
+          .querySelectorAll(".tab-content")
+          .forEach((content) => content.classList.remove("active"));
+        event.target.classList.add("active");
+        document.getElementById(tabId).classList.add("active");
+      }
+    </script>
+  </body>
+</html>
