@@ -31,7 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
         String token = resolveToken(request);
-        System.out.println("Extracted Token: " + token); // 토큰 값이 null인지 확인
+        //System.out.println("Extracted Token: " + token); // 토큰 값이 null인지 확인
 
         if (token != null && jwtTokenProvider.validateToken(token)) {
             String email = jwtTokenProvider.getEmail(token);
@@ -40,9 +40,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             UserDetailsImpl userDetails = new UserDetailsImpl(user);
 
-            System.out.println("JwtAuthenticationFilter : " + userDetails.getUsername());
-            System.out.println("JwtAuthenticationFilter : " + userDetails.getPassword());
-            System.out.println("JwtAuthenticationFilter : " + userDetails.getAuthorities());
+            //System.out.println("JwtAuthenticationFilter : " + userDetails.getUsername());
+            //System.out.println("JwtAuthenticationFilter : " + userDetails.getPassword());
+            //System.out.println("JwtAuthenticationFilter : " + userDetails.getAuthorities());
             
             UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

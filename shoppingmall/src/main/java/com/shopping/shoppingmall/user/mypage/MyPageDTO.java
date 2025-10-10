@@ -1,12 +1,8 @@
-package com.shopping.shoppingmall.user.signup;
-
-import java.time.LocalDate;
-
-import com.shopping.shoppingmall.user.validation.PasswordMatch;
+package com.shopping.shoppingmall.user.mypage;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,19 +13,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@PasswordMatch(passwordField = "password", confirmPasswordField = "confirmPassword")
-public class SignupRequest {
+public class MyPageDTO {
 
     @NotBlank(message = "아이디를 입력해주세요.")
     @Size(min = 4, max = 20, message = "아이디는 4~20자 사이여야 합니다.")
-    private String userId;
-
-    @NotBlank(message = "비밀번호를 입력해주세요..")
-    // @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,16}", message = "비밀번호는 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.")
-    private String password;
-
-    @NotBlank(message = "비밀번호 확인을 위해 입력해주세요.")
-    private String confirmPassword;
+    private String username;
 
     @NotBlank(message = "이름을 입력해주세요.")
     private String name;
@@ -39,6 +27,7 @@ public class SignupRequest {
     private String email;
 
     @NotBlank(message = "전화번호를 입력해주세요.")
+    @Pattern(regexp = "^0(1[016789]|2|3[1-3]|4[1-4]|5[1-5]|6[1-4]|70|80)[-]?\\d{3,4}[-]?\\d{4}$", message = "유효하지 않은 전화번호 형식입니다.")
     private String phone;
 
     @NotBlank(message = "주소를 입력해주세요.")
@@ -47,10 +36,7 @@ public class SignupRequest {
     @NotBlank(message = "상세주소를 입력해주세요.")
     private String addressDetail;
 
-    @Past(message = "생년월일은 과거 날짜여야 합니다.")
-    private LocalDate birth;
-
     @NotBlank(message = "성별을 선택해주세요.")
     private String gender;
-    
+
 }

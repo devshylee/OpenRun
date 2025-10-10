@@ -16,7 +16,7 @@ public class SignupService {
     private final PasswordEncoder passwordEncoder;
     private final MailService mailService;
 
-    public void signup(SignupRequest request){
+    public void signup(SignupDTO request){
 
         int result = signupMapper.findUserById(request.getUserId());
 

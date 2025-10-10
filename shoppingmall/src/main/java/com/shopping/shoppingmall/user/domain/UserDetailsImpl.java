@@ -44,9 +44,13 @@ public class UserDetailsImpl implements UserDetails{
         return new ArrayList<>(); // 권한 리스트 (필요 시 user.getRole() 기반으로 추가)
     }
 
+    public Long getId() {
+        return id;
+    }
+
     @Override
     public String getUsername() {
-        return email; // 로그인 ID로 사용되는 필드
+        return email; 
     }
 
     @Override

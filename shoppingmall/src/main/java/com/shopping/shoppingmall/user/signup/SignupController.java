@@ -22,14 +22,14 @@ public class SignupController {
 
     @GetMapping("/signup")
     public String showSignupForm(Model model) {
-        model.addAttribute("signupForm", new SignupRequest());
+        model.addAttribute("signupForm", new SignupDTO());
         return "user/signup";
     }
 
     // 커스텀 예외 만들고 전역 예외처리 클래스에서 처리하도록 나중에 변경 
     @PostMapping("/signup")
     public String processSignup(
-            @Valid @ModelAttribute("signupForm") SignupRequest signupRequest,
+            @Valid @ModelAttribute("signupForm") SignupDTO signupRequest,
             BindingResult bindingResult,
             Model model) {
 

@@ -33,24 +33,24 @@
 
         <!-- 내정보 폼 -->
         <form
-          th:action="@{/mypage/update}"
+          th:action="@{/mypage}"
           th:object="${user}"
           method="post"
           class="mypage-form"
         >
           <div class="form-group">
             <label for="username">닉네임</label>
-            <input type="text" id="username" th:field="*{username}" readonly />
+            <input type="text" id="username" th:field="*{username}" />
           </div>
 
           <div class="form-group">
             <label for="name">이름</label>
-            <input type="text" id="name" th:field="*{name}" />
+            <input type="text" id="name" th:field="*{name}" readonly />
           </div>
 
           <div class="form-group">
             <label for="email">이메일</label>
-            <input type="email" id="email" th:field="*{email}" />
+            <input type="email" id="email" th:field="*{email}" readonly />
           </div>
 
           <div class="form-group">
@@ -74,16 +74,7 @@
 
           <div class="form-group">
             <label for="gender">성별</label>
-            <select id="gender" th:field="*{gender}">
-              <option value="">선택</option>
-              <option value="male">남성</option>
-              <option value="female">여성</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="birth">생년월일</label>
-            <input type="date" id="birth" th:field="*{birth}" />
+            <input type="text" id="gender" th:field="*{gender}" readonly />
           </div>
 
           <div class="form-actions">
