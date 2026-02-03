@@ -11,7 +11,7 @@
 
 ### 2. 설정 파일 준비
 
-`application-local.properties` 파일이 이미 생성되어 있습니다:
+`application-local.properties` 파일을 생성해야 합니다:
 
 ```
 openrun-api/src/main/resources/application-local.properties

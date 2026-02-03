@@ -23,18 +23,15 @@ public class SignupService {
         int result = signupMapper.findUserById(request.getUserId());
 
         if (result > 0) {
-            System.out.println("이미 사용중인 아이디");
-            throw new IllegalStateException("이미 사용 중인 아이디입니다.");
+            throw new com.openrun.common.exception.DuplicateUserIdException("이미 사용 중인 아이디입니다.");
         }
 
         if (!request.getPassword().equals(request.getConfirmPassword())) {
-            System.out.println("비밀번호 다름");
-            throw new IllegalStateException("확인된 비밀번호가 다릅니다.");
+            throw new com.openrun.common.exception.PasswordMismatchException("확인된 비밀번호가 다릅니다.");
         }
 
         if (!mailService.isVerified(request.getEmail())) {
-            System.out.println("이메일인증 미완료");
-            throw new IllegalStateException("이메일 인증이 완료되지 않았습니다.");
+            throw new com.openrun.common.exception.EmailNotVerifiedException("이메일 인증이 완료되지 않았습니다.");
         }
 
         String encodedPassword = passwordEncoder.encode(request.getPassword());

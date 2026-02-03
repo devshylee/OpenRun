@@ -7,12 +7,17 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.security.authentication.BadCredentialsException;
 
 import com.openrun.common.dto.ErrorResponse;
 import com.openrun.common.exception.DuplicateUserIdException;
 import com.openrun.common.exception.EmailNotVerifiedException;
+import com.openrun.common.exception.IncorrectPasswordException;
 import com.openrun.common.exception.PasswordMismatchException;
+import com.openrun.common.exception.UserNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -49,6 +54,15 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * 현재 비밀번호 불일치 예외 처리
+     */
+    @ExceptionHandler(IncorrectPasswordException.class)
+    public ResponseEntity<ErrorResponse> handleIncorrectPasswordException(IncorrectPasswordException ex) {
+        ErrorResponse errorResponse = new ErrorResponse("INCORRECT_PASSWORD", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
+    /**
      * 비밀번호 불일치 예외 처리
      */
     @ExceptionHandler(PasswordMismatchException.class)
@@ -58,12 +72,30 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * 사용자 미발견 예외 처리
+     */
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException ex) {
+        ErrorResponse errorResponse = new ErrorResponse("USER_NOT_FOUND", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
+
+    /**
+     * 인증 실패 (로그인) 예외 처리
+     */
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException ex) {
+        ErrorResponse errorResponse = new ErrorResponse("AUTHENTICATION_FAILED", "아이디 또는 비밀번호가 일치하지 않습니다.");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+    }
+
+    /**
      * 기타 예외 처리
      */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneralException(Exception ex) {
         ErrorResponse errorResponse = new ErrorResponse("INTERNAL_SERVER_ERROR", "서버 오류가 발생했습니다.");
-        ex.printStackTrace(); // 로깅용
+        log.error("예상치 못한 예외 발생", ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
 }

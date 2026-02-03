@@ -43,19 +43,9 @@ public class PasswordController {
                     .body(ApiResponse.error("로그인이 필요합니다."));
         }
 
-        int updatePassword = passwordService.changePassword(userDetails.getId(), passwordDTO);
+        // 예외가 발생하면 GlobalExceptionHandler가 처리
+        passwordService.changePassword(userDetails.getId(), passwordDTO);
 
-        if (updatePassword == 0) {
-            return ResponseEntity.ok(ApiResponse.success("성공적으로 비밀번호가 변경되었습니다."));
-        } else if (updatePassword == 1) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(ApiResponse.error("현재 비밀번호가 올바르지 않습니다."));
-        } else if (updatePassword == 2) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(ApiResponse.error("새 비밀번호가 일치하지 않습니다."));
-        } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error("비밀번호 변경 중 문제가 발생하였습니다."));
-        }
+        return ResponseEntity.ok(ApiResponse.success("성공적으로 비밀번호가 변경되었습니다."));
     }
 }

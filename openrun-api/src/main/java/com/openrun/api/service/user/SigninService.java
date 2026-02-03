@@ -12,7 +12,9 @@ import com.openrun.api.dto.user.SigninRequest;
 import com.openrun.api.dto.user.SigninResponse;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SigninService {
@@ -24,34 +26,23 @@ public class SigninService {
 
     public SigninResponse login(SigninRequest request) {
 
-        // System.out.println("로그인메서드 실행");
-        // System.out.println("전달받은 객체 내용물 : " + request.getEmail() + " / " +
-        // request.getPassword());
-
-        // System.out.println("findbyEmail 실행");
         Optional<User> user = signinMapper.findByEmail(request.getEmail());
 
+        // 보안상 아이디/비밀번호 오류를 구분하지 않음
         if (!user.isPresent()) {
-            // System.out.println("존재하지 않는 이메일");
-            return null;
+            throw new org.springframework.security.authentication.BadCredentialsException("아이디 또는 비밀번호가 일치하지 않습니다.");
         }
 
-        System.out.println("패스워드 검증 실행");
+        log.debug("비밀번호 검증 시작: email={}", request.getEmail());
         if (!passwordEncoder.matches(request.getPassword(), user.get().getPassword())) {
-            // System.out.println("요청한 비밀번호 : " + request.getPassword() + "\n" + "유저 비밀번호 :
-            // " + user.get().getPassword());
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            throw new org.springframework.security.authentication.BadCredentialsException("아이디 또는 비밀번호가 일치하지 않습니다.");
         }
 
-        // System.out.println("액세스토큰 생성");
         String accessToken = jwtTokenProvider.generateAccessToken(user.get().getId(), user.get().getEmail());
-        // System.out.println("리프레시토큰 생성");
         String refreshToken = jwtTokenProvider.generateRefreshToken(user.get().getId());
 
-        // System.out.println("리프레시토큰 저장");
         redisService.saveRefreshToken(user.get().getId(), refreshToken);
 
-        // System.out.println("토큰 반환");
         return new SigninResponse(accessToken, refreshToken);
     }
 

@@ -63,14 +63,7 @@ public class SecurityConfig {
                         .anyRequest().permitAll())
                 // ✅ JWT 필터 등록
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .formLogin(form -> form.disable())
-                .logout(logout -> logout
-                        .logoutUrl("/logout") // 로그아웃을 처리할 URL (POST 요청)
-                        .logoutSuccessUrl("/") // 로그아웃 성공 후 리다이렉트될 URL
-                        .invalidateHttpSession(true) // HTTP 세션 무효화
-                        .deleteCookies("ACCESS_TOKEN", "REFRESH_TOKEN") // 쿠키 삭제
-
-                );
+                .formLogin(form -> form.disable());
 
         return http.build();
     }

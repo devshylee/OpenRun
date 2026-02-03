@@ -75,6 +75,9 @@ public class JwtTokenProvider {
 
     public Long getUserIdFromToken(String token) {
         Claims claims = parseToken(token);
+        if (claims.containsKey("userId")) {
+            return claims.get("userId", Long.class);
+        }
         return Long.parseLong(claims.getSubject());
     }
 

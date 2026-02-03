@@ -9,7 +9,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MailService {
@@ -30,7 +32,7 @@ public class MailService {
         // message.setText("인증코드: " + code + "\n\n5분 이내에 입력해주세요.");
         // mailSender.send(message);
 
-        System.out.println(code);
+        log.debug("생성된 인증 코드: email={}, code={}", to, code);
 
     }
 
@@ -44,10 +46,10 @@ public class MailService {
         String storedCode = codeStorage.get(email);
 
         if (!storedCode.equals(code)) {
-            System.out.println("인증코드가 다름");
+            log.warn("인증 코드 불일치: email={}", email);
             throw new IllegalStateException("인증코드가 다릅니다.");
         }
-        System.out.println("인증성공");
+        log.info("이메일 인증 성공: email={}", email);
         verifiedEmails.add(email);
 
     }

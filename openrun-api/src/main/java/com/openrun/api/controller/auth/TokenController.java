@@ -38,9 +38,9 @@ public class TokenController {
             throw new IllegalArgumentException("이미 로그아웃된 토큰입니다.");
         }
 
-        Optional<User> user = signinMapper.findById(userId);
-
-        String newAccessToken = jwtTokenProvider.generateAccessToken(userId, user.get().getEmail());
+        User user = signinMapper.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다. ID: " + userId));
+        String newAccessToken = jwtTokenProvider.generateAccessToken(userId, user.getEmail());
         String newRefreshToken = jwtTokenProvider.generateRefreshToken(userId);
 
         refreshTokenService.saveRefreshToken(userId, newRefreshToken);

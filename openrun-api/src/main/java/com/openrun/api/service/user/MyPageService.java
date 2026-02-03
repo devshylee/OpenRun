@@ -1,7 +1,5 @@
 package com.openrun.api.service.user;
 
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 
 import com.openrun.core.domain.user.User;
@@ -11,7 +9,9 @@ import com.openrun.core.mapper.user.MyPageMapper;
 import com.openrun.core.dto.MyPageDTO;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MyPageService {
@@ -20,34 +20,18 @@ public class MyPageService {
     private final MyPageMapper myPageMapper;
 
     public User findUser(UserDetailsImpl userDetails) {
-
-        Optional<User> optionalUser = signinMapper.findByEmail(userDetails.getUsername());
-
-        User user;
-        if (optionalUser.isPresent()) {
-            user = optionalUser.get();
-        } else {
-            // 사용자가 없는 경우
-            user = null; // 또는 null 처리 로직
-        }
-
-        return user;
+        return signinMapper.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new com.openrun.common.exception.UserNotFoundException());
     }
 
     public void update(MyPageDTO myPageDTO, UserDetailsImpl userDetails) {
 
-        Optional<User> optionalUser = signinMapper.findByEmail(userDetails.getUsername());
-        System.out.println("user탐색 완료");
+        log.debug("사용자 조회 완료: email={}", userDetails.getUsername());
 
-        User user;
-        if (optionalUser.isPresent()) {
-            user = optionalUser.get();
-        } else {
-            // 사용자가 없는 경우
-            user = null; // 또는 null 처리 로직
-        }
+        User user = signinMapper.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new com.openrun.common.exception.UserNotFoundException());
 
-        System.out.println("Update의 User" + user);
+        log.debug("사용자 정보 업데이트: {}", user);
         myPageMapper.updateMember(myPageDTO, user.getEmail());
     }
 

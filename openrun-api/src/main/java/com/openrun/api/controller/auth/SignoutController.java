@@ -17,7 +17,9 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Tag(name = "Signout", description = "로그아웃 API")
 @RestController
 @RequestMapping("/api")
@@ -50,7 +52,7 @@ public class SignoutController {
                 Long userId = jwtTokenProvider.getUserIdFromToken(refreshToken);
                 jwtRedisService.deleteRefreshToken(userId);
             } catch (Exception e) {
-                System.out.println("로그아웃 중 토큰 에러: " + e.getMessage());
+                log.warn("로그아웃 중 토큰 처리 오류: {}", e.getMessage());
             }
         }
 

@@ -6,7 +6,7 @@ import '../styles/Login.css';
 function Login() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    userId: '',
+    email: '',
     password: '',
   });
   const [error, setError] = useState('');
@@ -54,9 +54,9 @@ function Login() {
             <label className="form-label">아이디</label>
             <input
               type="text"
-              name="userId"
+              name="email"
               className="form-control"
-              value={formData.userId}
+              value={formData.email}
               onChange={handleChange}
               required
             />
