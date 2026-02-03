@@ -37,16 +37,6 @@ Gmail 앱 비밀번호 생성: https://support.google.com/accounts/answer/185833
 docker-compose up -d
 ```
 
-#### 또는 로컬 설치
-
-```bash
-# MySQL (port 3306)
-# 데이터베이스: mallproject
-# 사용자: shoppingmall / 비밀번호: 1234
-
-# Redis (port 6379)
-```
-
 ### 4. 백엔드 실행
 
 ```bash
