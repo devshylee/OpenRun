@@ -1,0 +1,67 @@
+.header {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #667eea;
+  margin: 0;
+}
+
+.header nav {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  color: #667eea;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.btn-link:hover {
+  text-decoration: underline;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.py-3 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}

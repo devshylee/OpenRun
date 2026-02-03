@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.openrun.core.mapper.user.SignupMapper">
+
+<select id="findUserById" resultType="int" parameterType="String">
+    SELECT count(*) FROM users WHERE username = #{username}
+</select>
+
+<insert id="insertUser" parameterType="com.openrun.core.domain.user.User">
+    INSERT INTO users(
+        username, password, name, email, phone,
+        address, address_detail, gender, birth
+    )
+    VALUES (
+        #{username}, #{password}, #{name}, #{email}, #{phone},
+        #{address}, #{addressDetail}, #{gender}, #{birth}
+    )
+</insert>
+
+</mapper>

@@ -1,4 +1,10 @@
 {
-  "java.compile.nullAnalysis.mode": "automatic",
-  "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.runtimes": [
+        {
+            "name": "JavaSE-17",
+            "path": "C:\\Program Files\\Eclipse Adoptium\\jdk-17.0.17.10-hotspot",
+            "default": true
+        }
+    ],
+    "java.import.gradle.java.home": "C:\\Program Files\\Eclipse Adoptium\\jdk-17.0.17.10-hotspot"
 }
