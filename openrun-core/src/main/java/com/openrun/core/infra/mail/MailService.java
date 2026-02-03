@@ -45,7 +45,7 @@ public class MailService {
     public void verifyCode(String email, String code) {
         String storedCode = codeStorage.get(email);
 
-        if (!storedCode.equals(code)) {
+        if (storedCode == null || !storedCode.equals(code)) {
             log.warn("인증 코드 불일치: email={}", email);
             throw new IllegalStateException("인증코드가 다릅니다.");
         }

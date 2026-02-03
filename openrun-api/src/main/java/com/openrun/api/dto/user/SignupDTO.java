@@ -25,7 +25,7 @@ public class SignupDTO {
     @Size(min = 4, max = 20, message = "아이디는 4~20자 사이여야 합니다.")
     private String username;
 
-    @NotBlank(message = "비밀번호를 입력해주세요..")
+    @NotBlank(message = "비밀번호를 입력해주세요.")
     private String password;
 
     @NotBlank(message = "비밀번호 확인을 위해 입력해주세요.")

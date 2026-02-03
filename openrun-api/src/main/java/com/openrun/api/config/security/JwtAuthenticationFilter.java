@@ -35,7 +35,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (token != null && jwtTokenProvider.validateToken(token)) {
             String email = jwtTokenProvider.getEmail(token);
             User user = signinMapper.findByEmail(email)
-                    .orElseThrow(() -> new RuntimeException("사용자 없음"));
+                    .orElseThrow(() -> new com.openrun.common.exception.UserNotFoundException(
+                            "인증 토큰에 해당하는 사용자를 찾을 수 없습니다."));
 
             UserDetailsImpl userDetails = new UserDetailsImpl(user);
 
