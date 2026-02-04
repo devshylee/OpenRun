@@ -22,6 +22,12 @@ function Header() {
           <strong>오또코디</strong>
         </h1>
         <nav>
+          <button className="btn btn-link" onClick={() => navigate('/products')}>
+            상품 목록
+          </button>
+          <button className="btn btn-link" onClick={() => navigate('/admin/products')}>
+            상품 관리
+          </button>
           <button className="btn btn-link" onClick={() => navigate('/mypage')}>
             마이페이지
           </button>
