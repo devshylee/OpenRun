@@ -48,8 +48,8 @@
 1. **`application-local.properties` 생성** (Git에 커밋되지 않음)
 
    ```properties
-   spring.datasource.password=1234
-   jwt.secret=ZmFrZVNlY3JldEtleUhlcmUzMkJ5dGVzMTIzNDU2
+   spring.datasource.password=your-password
+   jwt.secret=your-secret
    spring.mail.password=your-app-password
    ```
 
@@ -73,10 +73,10 @@ services:
     image: mysql:8.0
     container_name: openrun-mysql
     environment:
-      MYSQL_ROOT_PASSWORD: root1234
+      MYSQL_ROOT_PASSWORD: your-password
       MYSQL_DATABASE: mallproject
       MYSQL_USER: shoppingmall
-      MYSQL_PASSWORD: 1234
+      MYSQL_PASSWORD: your-password
     ports:
       - "3306:3306"
 
