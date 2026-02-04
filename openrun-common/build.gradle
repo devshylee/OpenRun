@@ -6,3 +6,12 @@ dependencies {
     // Spring Boot Starter (optional, depending on what common holds, but often useful for validation etc)
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 }
+
+// This is a library module, not an application - disable bootJar
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
