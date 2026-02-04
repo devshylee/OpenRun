@@ -1,0 +1,8 @@
+dependencies {
+    // Utilities usually need Jackson
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    
+    // Spring Boot Starter (optional, depending on what common holds, but often useful for validation etc)
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+}

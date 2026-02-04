@@ -1,0 +1,32 @@
+dependencies {
+    implementation project(':openrun-common')
+
+    // Persistence
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+    
+    // Database
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    // Keeping Postgres just in case for legacy migration support if needed temporarily, but commenting out as per plan to switch to MySQL
+    // runtimeOnly 'org.postgresql:postgresql'
+    
+    // Redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    
+    // Utils
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    
+    // Security (for UserDetails)
+    implementation 'org.springframework.security:spring-security-core'
+    
+    // Validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    
+    // Mail
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    
+    // JWT
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+}

@@ -1,0 +1,28 @@
+.footer {
+  background-color: #333;
+  color: #fff;
+  margin-top: auto;
+}
+
+.footer p {
+  margin: 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.py-3 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.mt-5 {
+  margin-top: 3rem;
+}

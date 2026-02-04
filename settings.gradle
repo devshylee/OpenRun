@@ -1,0 +1,6 @@
+rootProject.name = 'open-run'
+
+include 'openrun-common'
+include 'openrun-core'
+include 'openrun-api'
+include 'openrun-admin'
